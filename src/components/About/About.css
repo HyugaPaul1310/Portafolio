@@ -1,0 +1,434 @@
+/* ========================================
+   ABOUT SECTION (Bento Grid)
+   ======================================== */
+
+.about-section {
+  position: relative;
+  width: 100%;
+  padding: 120px 20px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.about-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+/* ----------------------------------------
+   Bento Grid Layout
+   ---------------------------------------- */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+}
+
+/* Base Card */
+.about-card {
+  position: relative;
+  background: rgba(18, 18, 35, 0.6);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 32px;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    border-color 0.3s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.about-card h3 {
+  font-family: var(--heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+/* ----------------------------------------
+   Card Placements
+   ---------------------------------------- */
+
+/* Profile: Left column, all rows */
+.card-profile {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 36px;
+  padding: 40px 24px;
+}
+
+/* Main story: top-center spanning 2 cols */
+.card-main {
+  grid-column: 2 / 4;
+  grid-row: 1;
+}
+
+/* Values: bottom-center */
+.card-values {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Skills: bottom-right */
+.card-skills {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+/* Stats: bottom spanning full below */
+.card-stats {
+  grid-column: 1 / 4;
+  grid-row: 3;
+}
+
+/* ----------------------------------------
+   Profile Card Styles
+   ---------------------------------------- */
+
+.profile-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-profile:hover .profile-image-wrapper {
+  transform: translateY(-5px);
+}
+
+.profile-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  background: linear-gradient(45deg,
+      var(--accent-purple),
+      var(--accent-pink),
+      var(--accent-blue),
+      var(--accent-cyan));
+  z-index: 0;
+  opacity: 0.2;
+  transition: all 0.5s ease;
+}
+
+.card-profile:hover .profile-ring {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px var(--accent-purple)) drop-shadow(0 0 15px var(--accent-pink));
+}
+
+@keyframes ringRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.profile-image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  filter: grayscale(20%) contrast(105%) brightness(0.9);
+  transition: all 0.5s ease;
+}
+
+.card-profile:hover .profile-image {
+  filter: grayscale(0%) contrast(110%) brightness(1.1);
+}
+
+.profile-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(10, 10, 24, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 100px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  z-index: 2;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+  }
+
+  50% {
+    box-shadow: 0 0 0 5px rgba(34, 197, 94, 0);
+  }
+}
+
+/* Social links */
+.profile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.profile-link:hover {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.3);
+  color: var(--accent-purple);
+  transform: translateX(4px);
+}
+
+/* ----------------------------------------
+   Main Story Card
+   ---------------------------------------- */
+
+.card-content p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+/* ----------------------------------------
+   Values Card
+   ---------------------------------------- */
+
+.values-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.values-list li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.value-icon {
+  font-size: 20px;
+  background: rgba(168, 85, 247, 0.1);
+  padding: 8px;
+  border-radius: 12px;
+  min-width: 40px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.values-list strong {
+  display: block;
+  font-size: 14px;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.values-list p {
+  font-size: 13px;
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ----------------------------------------
+   Skills Card
+   ---------------------------------------- */
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.skill-tag:hover {
+  background: rgba(168, 85, 247, 0.1);
+  color: var(--accent-purple);
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+/* ----------------------------------------
+   Stats Card
+   ---------------------------------------- */
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 8px 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-family: var(--heading);
+  font-size: 38px;
+  font-weight: 800;
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ----------------------------------------
+   Glow Effect
+   ---------------------------------------- */
+
+.card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.12), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.about-card:hover .card-glow {
+  opacity: 1;
+}
+
+/* ----------------------------------------
+   Responsive
+   ---------------------------------------- */
+
+@media (max-width: 1000px) {
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+
+  .card-profile {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    flex-direction: row;
+    gap: 32px;
+    padding: 32px;
+  }
+
+  .profile-image-wrapper {
+    height: 300px;
+  }
+
+  .profile-links {
+    flex-direction: row;
+    width: auto;
+  }
+
+  .card-main {
+    grid-column: 1 / 3;
+    grid-row: 2;
+  }
+
+  .card-values {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .card-skills {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .card-stats {
+    grid-column: 1 / 3;
+    grid-row: 4;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-profile,
+  .card-main,
+  .card-values,
+  .card-skills,
+  .card-stats {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .card-profile {
+    flex-direction: column;
+  }
+
+  .profile-links {
+    flex-direction: column;
+    width: 100%;
+  }
+}

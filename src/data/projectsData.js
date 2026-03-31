@@ -1,0 +1,42 @@
+export const projects = [
+  {
+    id: 1,
+    title: "Project: 'NEXUS' App UI",
+    category: "Mobile Development",
+    tags: ["React Native", "UI/UX"],
+    color: "#a855f7",
+    placeholder: "nexus",
+  },
+  {
+    id: 2,
+    title: "'AURORA' Dashboard",
+    category: "Web Application",
+    tags: ["React", "Node.js"],
+    color: "#6366f1",
+    placeholder: "aurora",
+  },
+  {
+    id: 3,
+    title: "'ELEVATE' Platform",
+    category: "Full Stack",
+    tags: ["PHP", "MySQL"],
+    color: "#ec4899",
+    placeholder: "elevate",
+  },
+  {
+    id: 4,
+    title: "'VERTEX' Landing",
+    category: "Frontend Development",
+    tags: ["HTML", "CSS", "JS"],
+    color: "#06b6d4",
+    placeholder: "vertex",
+  },
+  {
+    id: 5,
+    title: "'PRISM' E-Commerce",
+    category: "Web Application",
+    tags: ["React", "Tailwind"],
+    color: "#8b5cf6",
+    placeholder: "prism",
+  },
+];
