@@ -1,0 +1,289 @@
+/* ========================================
+   CONTACT SECTION
+   ======================================== */
+
+.contact-section {
+  position: relative;
+  width: 100%;
+  padding: 120px 20px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.contact-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.contact-subtitle {
+  color: var(--text-secondary);
+  font-size: 16px;
+  max-width: 500px;
+  margin: 16px auto 0;
+  line-height: 1.6;
+}
+
+/* ----------------------------------------
+   Layout
+   ---------------------------------------- */
+
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  background: rgba(18, 18, 35, 0.4);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px; /* Sharper */
+  padding: 40px;
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.5), transparent);
+}
+
+/* ----------------------------------------
+   Form Styling
+   ---------------------------------------- */
+
+.contact-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-left: 4px;
+}
+
+.input-glow-wrapper {
+  position: relative;
+  border-radius: 6px; /* Sharper */
+}
+
+/* Base Inputs */
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: rgba(10, 10, 24, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  padding: 14px 16px;
+  border-radius: 6px; /* Sharper */
+  font-family: var(--sans);
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Focus and Glow Effects */
+.input-glow-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 8px; /* Slightly larger than input for blur */
+  background: var(--gradient-main);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  filter: blur(8px);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  background: rgba(10, 10, 24, 0.9);
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+}
+
+.form-input:focus + .input-glow-wrapper::before,
+.form-textarea:focus + .input-glow-wrapper::before,
+.form-input:focus-within ~ .input-glow-wrapper::before,
+.input-glow-wrapper:focus-within::before {
+  opacity: 0.4;
+}
+
+/* ----------------------------------------
+   Service Tags (New Feature)
+   ---------------------------------------- */
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.service-tag {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 6px; /* Sharper */
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1; /* Makes them fill the space evenly */
+  text-align: center;
+  white-space: nowrap;
+}
+
+.service-tag:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.service-tag.active {
+  background: rgba(168, 85, 247, 0.15);
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+.mt-3 {
+  margin-top: 12px;
+}
+
+/* ----------------------------------------
+   Submit Button
+   ---------------------------------------- */
+
+.submit-btn {
+  background: var(--gradient-main);
+  color: #fff;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 6px; /* Sharper */
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px -10px rgba(168, 85, 247, 0.6);
+}
+
+.send-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px -10px rgba(168, 85, 247, 0.8), 0 0 20px rgba(236, 72, 153, 0.4);
+}
+
+.submit-btn:hover .send-icon {
+  transform: translate(4px, -4px);
+}
+
+/* ----------------------------------------
+   Contact Info Single Card
+   ---------------------------------------- */
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 30px;
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: transparent;
+  padding: 12px 24px;
+  border-radius: 6px; /* Sharper */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  min-width: 280px;
+  justify-content: center;
+}
+
+.info-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.info-icon {
+  color: var(--accent-pink);
+  width: 24px;
+  height: 24px;
+}
+
+.info-details h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.info-details p {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* ----------------------------------------
+   Responsive
+   ---------------------------------------- */
+
+@media (max-width: 768px) {
+  .contact-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .service-tags {
+    flex-direction: column;
+  }
+}

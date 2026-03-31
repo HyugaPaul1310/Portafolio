@@ -6,9 +6,9 @@ export default function Footer() {
     <footer className="aurora-wrap">
       <div className="aurora-content">
         <p>© 2026 Paul Eduardo Gonzalez Estrella. All rights reserved.</p>
-        <p>Designed with <span style={{ color: 'var(--accent-pink)' }}>♥</span> from Mexico</p>
+        <p>From Mexico</p>
       </div>
-      
+
       <div className="aurora-lightings">
         <div className="aurora-layer aurora-one">
           <div className="aurora-layer aurora-two">

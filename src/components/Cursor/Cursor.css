@@ -1,0 +1,50 @@
+/* ========================================
+   SIMPLE NEON CURSOR (Zero Delay)
+   ======================================== */
+
+body, a, button, .nav-item, .logo-text, .project-card, .btn-primary, .btn-secondary, .neon-btn {
+  cursor: none !important;
+}
+
+/* 
+  Wrapper handles raw position strictly 1:1 with mouse.
+  NO CSS transition on transform to avoid lag! 
+*/
+.cursor-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0; 
+  transition: opacity 0.3s ease; /* Only fade-in is smoothed */
+}
+
+.cursor-wrapper.visible {
+  opacity: 1;
+}
+
+/* 
+  The actual visual dot that handles scale and color.
+*/
+.cursor-dot {
+  width: 14px;
+  height: 14px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  margin: -7px 0 0 -7px; /* Centers inside the wrapper */
+  mix-blend-mode: difference; /* Inverts color underneath */
+  box-sizing: border-box;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border: 2px solid transparent;
+}
+
+/* Hovering Effects */
+.cursor-dot.hovering {
+  transform: scale(2.2); /* Much smaller, less intrusive */
+  background-color: transparent; /* Makes it a hollow ring so you can see through it */
+  border-color: var(--accent-purple); /* The ring color */
+  mix-blend-mode: normal; /* Disables inversion to show true glowing color */
+  box-shadow: 0 0 12px var(--accent-purple), inset 0 0 5px var(--accent-purple);
+  opacity: 0.9;
+}

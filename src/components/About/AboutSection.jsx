@@ -113,8 +113,8 @@ export default function AboutSection() {
                 <span className="stat-label">Technologies Known</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">100%</span>
-                <span className="stat-label">Reliability</span>
+                <span className="stat-number">2</span>
+                <span className="stat-label">Lenguages</span>
               </div>
             </div>
           </div>
