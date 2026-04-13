@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact",
+    "lets_talk": "Let's Talk"
+  },
+  "hero": {
+    "subtitle": "Portfolio 2026",
+    "view_portfolio": "View Portfolio",
+    "discover_more": "Discover More",
+    "description": "Frontend & Mobile Developer crafting high-performance digital experiences with a focus on usability, scalability, and modern design."
+  },
+  "projects": {
+    "label": "Latest Works",
+    "title": "Selected Projects",
+    "desc": "A curated collection of digital experiences, focusing on performance, aesthetics, and user impact.",
+    "view_details": "View Details",
+    "p1": {
+      "title": "EcoSmart Nexus",
+      "category": "Smart Home Dashboard",
+      "fullDescription": "A centralized dashboard for monitoring and managing home energy consumption in real-time.",
+      "problem": "Users lacked a clear, intuitive way to visualize their energy usage across multiple devices, leading to inefficiencies.",
+      "solution": "Developed a responsive dashboard that aggregates data from IoT devices, providing actionable insights.",
+      "learnings": "Mastered real-time data synchronization and advanced charting techniques."
+    },
+    "p2": {
+      "title": "Aurora Streams",
+      "category": "Media Streaming App",
+      "fullDescription": "A cross-platform mobile application for high-fidelity audio and video streaming.",
+      "problem": "Existing streaming solutions were either too heavy or lacked seamless offline transition capabilities.",
+      "solution": "Built a lightweight core using React Native and implemented a robust caching layer.",
+      "learnings": "Deepened understanding of mobile performance optimization and platform-specific feature handling."
+    },
+    "p3": {
+      "title": "Elevate CRM",
+      "category": "Enterprise Solution",
+      "fullDescription": "A comprehensive CRM system tailored for small to medium enterprises.",
+      "problem": "SMEs were overwhelmed by complex, expensive CRM systems that didn't fit their specific workflows.",
+      "solution": "Designed a modular CRM architecture that allows businesses to toggle features based on their needs.",
+      "learnings": "Focused on user experience design for enterprise software and database normalization at scale."
+    },
+    "p4": {
+      "title": "Vertex Finance",
+      "category": "Fintech Dashboard",
+      "fullDescription": "A high-performance financial analytics platform for tracking crypto portfolios.",
+      "problem": "Market volatility requires real-time updates and precise modeling that standard dashboards couldn't provide.",
+      "solution": "Implemented a custom WebGL-based rendering engine for large-scale data visualization.",
+      "learnings": "Gained expertise in WebGL and high-frequency data processing in the browser."
+    },
+    "p5": {
+      "title": "Prism Analytics",
+      "category": "SaaS Analytics",
+      "fullDescription": "An end-to-end analytics suite for e-commerce platforms to track conversion funnels.",
+      "problem": "E-commerce owners struggled to identify exactly where in the checkout process they were losing customers.",
+      "solution": "Created a granular funnel tracking system with event-based logging and automated reports.",
+      "learnings": "Explored advanced SQL queries for funnel analysis and integrated multi-factor authentication."
+    },
+    "modal": {
+      "overview": "Overview",
+      "problem": "The Problem",
+      "solution": "The Solution",
+      "tech_learnings": "Tech Learnings",
+      "visit": "Visit Project",
+      "repo": "View Repository"
+    }
+  },
+  "about": {
+    "label": "About Me",
+    "title": "Passion for Digital Innovation",
+    "cards": {
+      "profile": {
+        "badge": "Available"
+      },
+      "story": {
+        "title": "About me",
+        "text": "Graduate in Information Technology with experience in frontend development and mobile applications. Skilled in HTML, CSS, JavaScript, PHP, and React Native (Expo), with experience integrating REST APIs, user authentication, and optimization using Cloudflare. Focused on building functional, secure, and user-centered (UI/UX) applications, with the ability to quickly adapt to new technologies."
+      },
+      "values": {
+        "title": "Philosophy",
+        "v1_title": "Performance",
+        "v1_desc": "Building high-speed, fluid interfaces.",
+        "v2_title": "Design",
+        "v2_desc": "Modern and functional aesthetics.",
+        "v3_title": "User-First",
+        "v3_desc": "Total focus on the final user experience."
+      },
+      "skills": {
+        "title": "Tech Stack"
+      },
+      "stats": {
+        "title": "Experience",
+        "projects_label": "Deployed Apps",
+        "tech_label": "Technologies Known",
+        "reliability_label": "Reliability"
+      }
+    }
+  },
+  "contact": {
+    "label": "Get in touch",
+    "title": "Let's Build Something Great",
+    "subtitle": "Currently available for freelance projects and open to new opportunities.",
+    "cta": "Drop a message and let's talk about your next big idea.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "project_type": "Project Type",
+      "message": "Message",
+      "placeholder_name": "John Doe",
+      "placeholder_email": "john@example.com",
+      "placeholder_other": "E.g., API Integration, Consultation...",
+      "placeholder_message": "Hello, I have a project in mind...",
+      "send": "Send Message",
+      "confirm_title": "Confirm Sending",
+      "confirm_msg": "Are you sure you want to send this message?",
+      "confirm_btn": "Yes, send now",
+      "cancel_btn": "Cancel",
+      "sending": "Sending...",
+      "success_title": "Message Sent!",
+      "success_msg": "I've received your message and will get back to you as soon as possible. Thank you!",
+      "reset_btn": "Send another message",
+      "services": {
+        "web_page": "Web Page",
+        "system_web": "System Web",
+        "app": "App",
+        "other": "Other"
+      }
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "location": "From Mexico"
+  }
+}

@@ -1,11 +1,35 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { projects } from '../../data/projectsData';
+import { useTranslation } from 'react-i18next';
 import ProjectCard from './ProjectCard';
+import ProjectModal from './ProjectModal';
 import './Projects.css';
 
 export default function ProjectsSection() {
+  const { t } = useTranslation();
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/projects')
+      .then(res => res.json())
+      .then(data => {
+        // Parse JSON strings back to arrays just in case they come as strings
+        const formattedData = data.map(p => ({
+          ...p,
+          tags: typeof p.tags === 'string' ? JSON.parse(p.tags) : p.tags,
+          gallery: typeof p.gallery === 'string' ? JSON.parse(p.gallery) : p.gallery
+        }));
+        setProjects(formattedData);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to fetch projects:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const goTo = useCallback((index) => {
     if (isTransitioning) return;
@@ -106,15 +130,18 @@ export default function ProjectsSection() {
         </div>
       </div>
 
-      <div className="projects-header">
-        <p className="section-label">SELECTED WORK</p>
-        <h2 className="section-title">Featured Projects</h2>
-        <p className="section-desc">
-          A curated collection of projects showcasing expertise across web development, mobile applications, and digital design.
-        </p>
-      </div>
+      <header className="projects-header">
+        <p className="section-label">{t('projects.label')}</p>
+        <h2 className="section-title">{t('projects.title')}</h2>
+        <p className="section-desc">{t('projects.desc')}</p>
+      </header>
 
-      <div className="carousel-wrapper">
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '50px', color: '#fff' }}>Cargando proyectos...</div>
+      ) : projects.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '50px', color: '#fff' }}>No hay proyectos disponibles.</div>
+      ) : (
+        <div className="carousel-wrapper">
         <div
           className="carousel-stage"
           onMouseDown={onMouseDown}
@@ -132,9 +159,17 @@ export default function ProjectsSection() {
               project={project}
               position={getPosition(index)}
               isDragging={isDragging}
+              onViewDetails={() => setSelectedProject(project)}
             />
           ))}
         </div>
+
+        {selectedProject && (
+          <ProjectModal 
+            project={selectedProject} 
+            onClose={() => setSelectedProject(null)} 
+          />
+        )}
 
         <div className="carousel-controls">
           <button className="carousel-arrow carousel-prev" onClick={goPrev} aria-label="Previous project">
@@ -166,7 +201,8 @@ export default function ProjectsSection() {
             </svg>
           </button>
         </div>
-      </div>
+        </div>
+      )}
     </section>
   );
 }

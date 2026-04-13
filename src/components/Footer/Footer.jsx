@@ -1,12 +1,15 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './Footer.css';
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="aurora-wrap">
       <div className="aurora-content">
-        <p>© 2026 Paul Eduardo Gonzalez Estrella. All rights reserved.</p>
-        <p>From Mexico</p>
+        <p>© 2026 Paul Eduardo Gonzalez Estrella. {t('footer.rights')}</p>
+        <p>{t('footer.location')}</p>
       </div>
 
       <div className="aurora-lightings">

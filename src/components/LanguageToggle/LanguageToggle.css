@@ -1,0 +1,61 @@
+.lang-toggle {
+  background: rgba(18, 18, 35, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  margin-left: 20px;
+}
+
+.lang-toggle:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(168, 85, 247, 0.3);
+  transform: translateY(-1px);
+}
+
+.lang-toggle span {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.lang-toggle span.active {
+  color: var(--text-primary);
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+}
+
+.lang-toggle .divider {
+  opacity: 0.3;
+  font-weight: 300;
+  cursor: default;
+}
+
+.toggle-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lang-toggle:hover .toggle-glow {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .lang-toggle {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+}

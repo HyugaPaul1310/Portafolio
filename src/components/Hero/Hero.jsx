@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import './Hero.css';
 
 export default function Hero() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [clickCount, setClickCount] = useState(0);
+  const [lastClickTime, setLastClickTime] = useState(0);
+
+  const handleSecretClick = () => {
+    const now = Date.now();
+    // Reset if it's been more than 2 seconds since the last click
+    if (now - lastClickTime > 2000) {
+      setClickCount(1);
+    } else {
+      const newCount = clickCount + 1;
+      setClickCount(newCount);
+      if (newCount === 5) {
+        navigate('/admin');
+        setClickCount(0); // Reset after navigation
+      }
+    }
+    setLastClickTime(now);
+  };
+
   return (
     <section className="hero-section" id="hero">
       <div className="orb orb-1"></div>
@@ -77,20 +100,22 @@ export default function Hero() {
       </div>
 
       <div className="hero-content">
-        <p className="hero-subtitle">Portfolio 2026</p>
+        <p className="hero-subtitle" onClick={handleSecretClick} style={{ cursor: 'text' }}>
+          {t('hero.subtitle')}
+        </p>
         <h1 className="hero-name">
           <span className="line-1">PAUL EDUARDO</span>
           <span className="line-2">GONZALEZ ESTRELLA</span>
         </h1>
         <p className="hero-description">
-          Frontend &amp; Mobile Developer crafting high-performance digital experiences with a focus on usability, scalability, and modern design.
+          {t('hero.description')}
         </p>
         <div className="hero-buttons">
           <button className="btn-primary" onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}>
-            <span>VIEW PORTFOLIO</span>
+            <span>{t('hero.view_portfolio')}</span>
           </button>
           <button className="btn-secondary">
-            <span>DISCOVER MORE</span>
+            <span>{t('hero.discover_more')}</span>
           </button>
         </div>
       </div>

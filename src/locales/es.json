@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "projects": "Proyectos",
+    "about": "Sobre Mí",
+    "contact": "Contacto",
+    "lets_talk": "Hablemos"
+  },
+  "hero": {
+    "subtitle": "Portafolio 2026",
+    "view_portfolio": "Ver Portafolio",
+    "discover_more": "Descubrir Más",
+    "description": "Desarrollador Frontend y Mobile creando experiencias digitales de alto rendimiento con enfoque en usabilidad, escalabilidad y diseño moderno."
+  },
+  "projects": {
+    "label": "Últimos Trabajos",
+    "title": "Proyectos Seleccionados",
+    "desc": "Una colección seleccionada de experiencias digitales, enfocada en el rendimiento, la estética y el impacto en el usuario.",
+    "view_details": "Ver Detalles",
+    "p1": {
+      "title": "EcoSmart Nexus",
+      "category": "Dashboard de Hogar Inteligente",
+      "fullDescription": "Un panel centralizado para monitorear y gestionar el consumo de energía del hogar en tiempo real.",
+      "problem": "Los usuarios carecían de una forma clara e intuitiva de visualizar su uso de energía en múltiples dispositivos.",
+      "solution": "Se desarrolló un dashboard responsivo que agrega datos de dispositivos IoT, proporcionando información accionable.",
+      "learnings": "Dominio de la sincronización de datos en tiempo real y técnicas avanzadas de visualización."
+    },
+    "p2": {
+      "title": "Aurora Streams",
+      "category": "App de Streaming de Medios",
+      "fullDescription": "Una aplicación móvil multiplataforma para streaming de audio y video de alta fidelidad.",
+      "problem": "Las soluciones de streaming existentes eran demasiado pesadas o carecían de capacidades de transición offline sin interrupciones.",
+      "solution": "Núcleo ligero construido con React Native e implementación de una capa robusta de caché.",
+      "learnings": "Profundización en la optimización del rendimiento móvil y manejo de características específicas de plataforma."
+    },
+    "p3": {
+      "title": "Elevate CRM",
+      "category": "Solución Empresarial",
+      "fullDescription": "Un sistema integral de gestión de relaciones con clientes adaptado para pequeñas y medianas empresas.",
+      "problem": "Las PYMES estaban abrumadas por sistemas CRM complejos y costosos que no encajaban en sus flujos específicos.",
+      "solution": "Diseño de arquitectura modular que permite a las empresas activar funciones según sus necesidades.",
+      "learnings": "Enfoque en diseño de experiencia de usuario para software empresarial y normalización de bases de datos."
+    },
+    "p4": {
+      "title": "Vertex Finance",
+      "category": "Dashboard Fintech",
+      "fullDescription": "Plataforma de análisis financiero de alto rendimiento para el seguimiento de carteras cripto.",
+      "problem": "La volatilidad del mercado requiere actualizaciones en tiempo real y modelado preciso.",
+      "solution": "Implementación de un motor de renderizado personalizado basado en WebGL para visualización de datos a gran escala.",
+      "learnings": "Experiencia adquirida en WebGL y procesamiento de datos de alta frecuencia en el navegador."
+    },
+    "p5": {
+      "title": "Prism Analytics",
+      "category": "Analíticas SaaS",
+      "fullDescription": "Suite de analíticas para plataformas de e-commerce para rastrear embudos de conversión.",
+      "problem": "Los dueños de e-commerce luchaban por identificar exactamente dónde estaban perdiendo clientes.",
+      "solution": "Sistema granular de seguimiento de embudos con registro de eventos y generación de informes automáticos.",
+      "learnings": "Búsquedas SQL avanzadas para análisis de embudos e integración de sistemas de autenticación multifactor."
+    },
+    "modal": {
+      "overview": "Resumen",
+      "problem": "El Problema",
+      "solution": "La Solución",
+      "tech_learnings": "Aprendizajes Técnicos",
+      "visit": "Visitar Proyecto",
+      "repo": "Ver Repositorio"
+    }
+  },
+  "about": {
+    "label": "Sobre Mí",
+    "title": "Pasión por la Innovación Digital",
+    "cards": {
+      "profile": {
+        "badge": "Disponible"
+      },
+      "story": {
+        "title": "Sobre mí",
+        "text": "Egresado en Tecnologías de la Información con experiencia en desarrollo frontend y aplicaciones móviles. Conocimientos en HTML, CSS, JavaScript, PHP y React Native (Expo), con experiencia integrando APIs REST, autenticación de usuarios y optimización con Cloudflare. Enfocado en la creación de aplicaciones funcionales, seguras y centradas en el usuario (UI/UX), con capacidad de adaptación rápida a nuevas tecnologías."
+      },
+      "values": {
+        "title": "Filosofía",
+        "v1_title": "Rendimiento",
+        "v1_desc": "Construyendo interfaces fluidas y veloces.",
+        "v2_title": "Diseño",
+        "v2_desc": "Estética moderna y funcional.",
+        "v3_title": "Usuario",
+        "v3_desc": "Enfoque total en la experiencia del usuario final."
+      },
+      "skills": {
+        "title": "Tech Stack"
+      },
+      "stats": {
+        "title": "Experiencia",
+        "projects_label": "Apps Desplegadas",
+        "tech_label": "Tecnologías Conocidas",
+        "reliability_label": "Fiabilidad"
+      }
+    }
+  },
+  "contact": {
+    "label": "Ponte en contacto",
+    "title": "Construyamos algo genial",
+    "subtitle": "Actualmente disponible para proyectos freelance y abierto a nuevas oportunidades.",
+    "cta": "Envía un mensaje y hablemos de tu próxima gran idea.",
+    "form": {
+      "name": "Nombre",
+      "email": "Correo",
+      "project_type": "Tipo de Proyecto",
+      "message": "Mensaje",
+      "placeholder_name": "Juan Pérez",
+      "placeholder_email": "juan@ejemplo.com",
+      "placeholder_other": "Ej. Integración API, Consultoría...",
+      "placeholder_message": "Hola, tengo un proyecto en mente...",
+      "send": "Enviar Mensaje",
+      "confirm_title": "Confirmar envío",
+      "confirm_msg": "¿Estás seguro de que quieres enviar este mensaje?",
+      "confirm_btn": "Sí, enviar ahora",
+      "cancel_btn": "Cancelar",
+      "sending": "Enviando...",
+      "success_title": "¡Mensaje Enviado!",
+      "success_msg": "He recibido tu mensaje y te responderé lo antes posible. ¡Gracias por contactarme!",
+      "reset_btn": "Enviar otro mensaje",
+      "services": {
+        "web_page": "Página Web",
+        "system_web": "Sistema Web",
+        "app": "App",
+        "other": "Otro"
+      }
+    }
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "location": "Desde México"
+  }
+}

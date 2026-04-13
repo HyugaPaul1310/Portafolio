@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import LanguageToggle from '../LanguageToggle/LanguageToggle';
 import './Navbar.css';
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -38,20 +41,26 @@ export default function Navbar() {
         </div>
 
         {/* Desktop & Mobile Menu */}
-        <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
+        <nav className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
           <ul className="navbar-links">
-            <li onClick={() => scrollToSection('home')} className="nav-item">Home</li>
-            <li onClick={() => scrollToSection('projects')} className="nav-item">Projects</li>
-            <li onClick={() => scrollToSection('about')} className="nav-item">About Me</li>
+            <li className="nav-item">
+              <span onClick={() => scrollToSection('projects')}>{t('nav.projects')}</span>
+            </li>
+            <li className="nav-item">
+              <span onClick={() => scrollToSection('about')}>{t('nav.about')}</span>
+            </li>
+            <li className="nav-item">
+              <span onClick={() => scrollToSection('contact')}>{t('nav.contact')}</span>
+            </li>
           </ul>
 
-          {/* Action Button */}
           <div className="navbar-action">
             <button className="neon-btn" onClick={() => scrollToSection('contact')}>
-              <span>Let's Talk</span>
+              <span>{t('nav.lets_talk')}</span>
             </button>
+            <LanguageToggle />
           </div>
-        </div>
+        </nav>
 
         {/* Mobile Toggle */}
         <div className={`mobile-toggle ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(!isMenuOpen)}>
