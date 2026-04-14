@@ -65,7 +65,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   
   // Security State
-  const [securityData, setSecurityData] = useState({ currentPassword: '', newPassword: '', recoveryEmail: '' });
+  const [securityData, setSecurityData] = useState({ currentPassword: '', newPassword: '' });
   const [isSavingSecurity, setIsSavingSecurity] = useState(false);
   const [confirmState, setConfirmState] = useState({ isOpen: false, title: '', message: '', type: 'primary' });
 
@@ -135,29 +135,6 @@ export default function Dashboard() {
       }
     } catch (err) {
       setConfirmState({ isOpen: true, title: 'Error Crítico', message: 'Fallo de conexión.', type: 'danger' });
-    } finally {
-      setIsSavingSecurity(false);
-    }
-  };
-
-  const handleUpdateEmail = async () => {
-    setIsSavingSecurity(true);
-    try {
-      const res = await fetch('http://localhost:3000/api/auth/recovery-email', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: securityData.recoveryEmail })
-      });
-      if (res.ok) {
-        setConfirmState({
-          isOpen: true,
-          title: 'Email Actualizado',
-          message: 'El correo de recuperación ha sido guardado.',
-          type: 'primary'
-        });
-      }
-    } catch (err) {
-      console.error(err);
     } finally {
       setIsSavingSecurity(false);
     }
@@ -402,14 +379,6 @@ export default function Dashboard() {
                   <button type="submit" disabled={isSavingSecurity} className="security-btn">Actualizar Contraseña</button>
                 </div>
               </form>
-              <div className="security-form-group">
-                <h5><Mail size={16} /> Email de Recuperación</h5>
-                <p className="security-hint">Se usará para alertas y restablecer acceso.</p>
-                <div className="input-row-neon">
-                  <input type="email" placeholder="tu@email.com" value={securityData.recoveryEmail} onChange={e => setSecurityData({...securityData, recoveryEmail: e.target.value})} />
-                  <button onClick={handleUpdateEmail} disabled={isSavingSecurity} className="security-btn secondary">Guardar Email</button>
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -17,7 +17,7 @@ function PortfolioLayout() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ page: 'home' })
-    }).catch(() => {}); // fail silently
+    }).catch(() => { }); // fail silently
   }, []);
 
   return (
@@ -60,23 +60,23 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<PortfolioLayout />} />
-        <Route 
-          path="/admin/*" 
+        <Route
+          path="/admin/*"
           element={
             isAuthenticated ? (
               <AdminLayout />
             ) : (
-              <div style={{ 
-                height: '100vh', 
-                display: 'flex', 
+              <div style={{
+                height: '100vh',
+                display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                background: '#0a0a0a', 
-                color: '#444' 
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: '#0a0a0a',
+                color: '#444'
               }}>
                 <p>Acceso Restringido</p>
-                <button 
+                <button
                   onClick={() => setIsLoginOpen(true)}
                   style={{
                     marginTop: '20px',
@@ -92,13 +92,13 @@ function App() {
                 </button>
               </div>
             )
-          } 
+          }
         />
       </Routes>
 
-      <LoginModal 
-        isOpen={isLoginOpen} 
-        onClose={() => setIsLoginOpen(false)} 
+      <LoginModal
+        isOpen={isLoginOpen}
+        onClose={() => setIsLoginOpen(false)}
         onLoginSuccess={handleLoginSuccess}
       />
     </Router>

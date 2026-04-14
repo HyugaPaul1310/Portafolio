@@ -60,10 +60,12 @@ router.post('/login', async (req, res) => {
       const failedCount = failures[0].count;
       
       // TRIGGER EMAIL ALERT if threshold hit (e.g. 5 attempts)
-      if (failedCount >= 5 && authRows[0].recovery_email) {
-        // Only send if it's the exact 5th attempt to avoid spamming
-        if (failedCount === 5) {
-          sendSecurityAlert(authRows[0].recovery_email, {
+      const alertEmail = process.env.RECOVERY_EMAIL || authRows[0].recovery_email;
+      
+      if (failedCount >= 5 && alertEmail) {
+        // Trigger on multiples of 5 to notify periodic bursts without spamming every single failure
+        if (failedCount % 5 === 0 || failedCount === 5) {
+          sendSecurityAlert(alertEmail, {
             ip,
             country: geo.country,
             city: geo.city,

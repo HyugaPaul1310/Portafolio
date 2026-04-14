@@ -130,7 +130,7 @@ router.get('/security', async (req, res) => {
     const [top_countries] = await req.db.query(`
       SELECT country as name, COUNT(*) as count 
       FROM security_logs 
-      WHERE is_successful = 0 AND country IS NOT NULL AND country != 'Local'
+      WHERE is_successful = 0 AND country IS NOT NULL
       GROUP BY country 
       ORDER BY count DESC 
       LIMIT 5
