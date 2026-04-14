@@ -28,8 +28,8 @@ export default function ProjectFormModal({ project, onClose, onSave }) {
     const fetchSelects = async () => {
       try {
         const [catRes, tagsRes] = await Promise.all([
-          fetch('http://localhost:3000/api/categories'),
-          fetch('http://localhost:3000/api/tags')
+          fetch('http://localhost:3000/api/taxonomy/categories'),
+          fetch('http://localhost:3000/api/taxonomy/tags')
         ]);
         const catData = await catRes.json();
         const tagsData = await tagsRes.json();
@@ -198,10 +198,24 @@ export default function ProjectFormModal({ project, onClose, onSave }) {
 
               <div className="form-group">
                 <label>Color (#hex) - Previsualización</label>
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                  <input type="color" name="color" value={formData.color} onChange={handleChange} style={{ width: '50px', height: '40px', padding: '0', cursor: 'pointer' }} />
-                  <div style={{ backgroundColor: formData.color, color: '#fff', padding: '8px 16px', borderRadius: '6px', fontWeight: 'bold', textShadow: '0 1px 3px rgba(0,0,0,0.5)', flex: 1, textAlign: 'center' }}>
-                    {formData.color.toUpperCase()} - (Color Seleccionado)
+                <div className="color-picker-row" style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <input type="color" name="color" value={formData.color} onChange={handleChange} style={{ width: '50px', height: '40px', padding: '0', cursor: 'pointer', border: 'none', background: 'transparent' }} />
+                  <div style={{ 
+                    backgroundColor: formData.color, 
+                    color: '#fff', 
+                    padding: '8px 16px', 
+                    borderRadius: '8px', 
+                    fontWeight: 'bold', 
+                    textShadow: '0 1px 3px rgba(0,0,0,0.5)', 
+                    flex: '1 1 150px', 
+                    textAlign: 'center',
+                    fontSize: '0.85rem',
+                    minHeight: '40px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    {formData.color.toUpperCase()}
                   </div>
                 </div>
               </div>

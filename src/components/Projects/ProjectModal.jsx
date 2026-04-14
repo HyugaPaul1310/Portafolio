@@ -151,7 +151,7 @@ export default function ProjectModal({ project, onClose }) {
               </div>
 
               <footer className="modal-footer">
-                {project.show_website && project.website_url && (
+                {!!project.show_website && project.website_url && (
                   <a href={project.website_url} target="_blank" rel="noopener noreferrer" className="modal-btn modal-btn-primary">
                     {t('projects.modal.visit')}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -161,7 +161,7 @@ export default function ProjectModal({ project, onClose }) {
                     </svg>
                   </a>
                 )}
-                {project.show_repo && project.repo_url && (
+                {!!project.show_repo && project.repo_url && (
                   <a href={project.repo_url} target="_blank" rel="noopener noreferrer" className="modal-btn modal-btn-secondary">
                     {t('projects.modal.repo')}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

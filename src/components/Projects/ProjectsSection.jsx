@@ -39,12 +39,14 @@ export default function ProjectsSection() {
   }, [isTransitioning]);
 
   const goNext = useCallback(() => {
+    if (projects.length === 0) return;
     goTo((currentIndex + 1) % projects.length);
-  }, [currentIndex, goTo]);
+  }, [currentIndex, goTo, projects.length]);
 
   const goPrev = useCallback(() => {
+    if (projects.length === 0) return;
     goTo((currentIndex - 1 + projects.length) % projects.length);
-  }, [currentIndex, goTo]);
+  }, [currentIndex, goTo, projects.length]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -81,10 +83,11 @@ export default function ProjectsSection() {
     const sensitivity = 80;
     const steps = Math.round(dragOffset / sensitivity);
 
-    if (steps !== 0) {
-      let newIndex = currentIndex - steps;
-      newIndex = ((newIndex % projects.length) + projects.length) % projects.length;
-      setCurrentIndex(newIndex);
+    if (steps !== 0 && projects.length > 0) {
+      setCurrentIndex((prev) => {
+        let newIndex = prev - steps;
+        return ((newIndex % projects.length) + projects.length) % projects.length;
+      });
     }
 
     setDragOffset(0);

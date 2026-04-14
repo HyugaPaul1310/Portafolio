@@ -18,8 +18,8 @@ export default function Hero() {
       const newCount = clickCount + 1;
       setClickCount(newCount);
       if (newCount === 5) {
-        navigate('/admin');
-        setClickCount(0); // Reset after navigation
+        window.dispatchEvent(new CustomEvent('trigger-admin-login'));
+        setClickCount(0);
       }
     }
     setLastClickTime(now);

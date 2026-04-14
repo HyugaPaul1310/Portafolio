@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="aurora-wrap">
       <div className="aurora-content">
-        <p>© 2026 Paul Eduardo Gonzalez Estrella. {t('footer.rights')}</p>
+        <p>Portafolio 2026 - Paul Eduardo Gonzalez Estrella. {t('footer.rights')}</p>
         <p>{t('footer.location')}</p>
       </div>
 

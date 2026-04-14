@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Upload, User, Eraser, Plus } from 'lucide-react';
+import ConfirmModal from './ConfirmModal';
 import './Admin.css';
 
 export default function AboutManager() {
@@ -25,7 +26,23 @@ export default function AboutManager() {
   const [profileImageFile, setProfileImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ text: '', type: '' });
+  const [confirmState, setConfirmState] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'primary',
+    confirmText: 'Aceptar',
+    showButtons: true
+  });
+
+  useEffect(() => {
+    if (confirmState.isOpen && !confirmState.showButtons) {
+      const timer = setTimeout(() => {
+        setConfirmState(prev => ({ ...prev, isOpen: false }));
+      }, 1000); // 1 second for auto-close
+      return () => clearTimeout(timer);
+    }
+  }, [confirmState.isOpen, confirmState.showButtons]);
 
   useEffect(() => {
     fetchAboutAndTags();
@@ -35,7 +52,7 @@ export default function AboutManager() {
     try {
       const [aboutRes, tagsRes] = await Promise.all([
         fetch('http://localhost:3000/api/about'),
-        fetch('http://localhost:3000/api/tags')
+        fetch('http://localhost:3000/api/taxonomy/tags')
       ]);
 
       if (aboutRes.ok) {
@@ -105,7 +122,7 @@ export default function AboutManager() {
     }
     // Create new tag in the database
     try {
-      const res = await fetch('http://localhost:3000/api/tags', {
+      const res = await fetch('http://localhost:3000/api/taxonomy/tags', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: trimmed })
@@ -138,7 +155,6 @@ export default function AboutManager() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage({ text: '', type: '' });
 
     const submitData = new FormData();
     Object.keys(formData).forEach(key => {
@@ -159,20 +175,42 @@ export default function AboutManager() {
 
       if (response.ok) {
         const result = await response.json();
-        setMessage({ text: 'Changes saved successfully!', type: 'success' });
+        
+        setConfirmState({
+          isOpen: true,
+          title: 'Guardado Exitoso',
+          message: 'La información se ha actualizado correctamente en el servidor.',
+          type: 'primary',
+          confirmText: 'Excelente',
+          showButtons: false
+        });
+
         if (result.profile_image_url) {
           setFormData(prev => ({ ...prev, existingProfileImage: result.profile_image_url }));
           setImagePreview(result.profile_image_url);
         }
       } else {
-        setMessage({ text: 'Failed to update section.', type: 'error' });
+        setConfirmState({
+          isOpen: true,
+          title: 'Error al Guardar',
+          message: 'No se pudo actualizar la sección. Por favor, inténtalo de nuevo.',
+          type: 'danger',
+          confirmText: 'Entendido',
+          showButtons: true
+        });
       }
     } catch (error) {
       console.error('Error saving about data', error);
-      setMessage({ text: 'An error occurred while saving.', type: 'error' });
+      setConfirmState({
+        isOpen: true,
+        title: 'Error Crítico',
+        message: 'Ocurrió un error inesperado al conectar con el servidor.',
+        type: 'danger',
+        confirmText: 'Cerrar',
+        showButtons: true
+      });
     } finally {
       setLoading(false);
-      setTimeout(() => setMessage({ text: '', type: '' }), 4000);
     }
   };
 
@@ -182,14 +220,9 @@ export default function AboutManager() {
         <h3 className="chart-title" style={{ padding: 0, border: 'none' }}>
            Manage About Me
         </h3>
-        {message.text && (
-          <span className={`status-message ${message.type === 'success' ? 'status-success' : 'status-error'}`}>
-            {message.text}
-          </span>
-        )}
       </div>
 
-      <div className="table-container" style={{ padding: '32px' }}>
+      <div className="table-container about-form-container">
         <form onSubmit={handleSubmit} className="admin-modal-form" style={{ padding: 0 }}>
           
           {/* Profile Image */}
@@ -329,6 +362,18 @@ export default function AboutManager() {
           </div>
         </form>
       </div>
+
+      <ConfirmModal 
+        isOpen={confirmState.isOpen}
+        title={confirmState.title}
+        message={confirmState.message}
+        type={confirmState.type}
+        confirmText={confirmState.confirmText}
+        cancelText="Cerrar"
+        showButtons={confirmState.showButtons}
+        onConfirm={() => setConfirmState(prev => ({ ...prev, isOpen: false }))}
+        onCancel={() => setConfirmState(prev => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Eye, Users, FolderKanban, TrendingUp, BarChart3, Globe } from 'lucide-react';
+import { Eye, Users, FolderKanban, TrendingUp, BarChart3, Globe, Shield, Mail, Key } from 'lucide-react';
+import ConfirmModal from './ConfirmModal';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend, AreaChart, Area
@@ -44,24 +45,123 @@ const CustomPieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, n
   );
 };
 
+function StatCard({ icon, label, value, color }) {
+  return (
+    <div className="stat-card">
+      <div className="stat-icon" style={{ background: color + '15', color }}>
+        {icon}
+      </div>
+      <div className="stat-info">
+        <span className="stat-value">{value?.toLocaleString?.() || 0}</span>
+        <span className="stat-label">{label}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
+  const [securityStats, setSecurityStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  // Security State
+  const [securityData, setSecurityData] = useState({ currentPassword: '', newPassword: '', recoveryEmail: '' });
+  const [isSavingSecurity, setIsSavingSecurity] = useState(false);
+  const [confirmState, setConfirmState] = useState({ isOpen: false, title: '', message: '', type: 'primary' });
 
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/analytics/dashboard');
-        const data = await res.json();
-        setStats(data);
+        const [dashRes, secRes] = await Promise.all([
+          fetch('http://localhost:3000/api/analytics/dashboard'),
+          fetch('http://localhost:3000/api/analytics/security')
+        ]);
+        
+        const dashData = await dashRes.json();
+        const secData = await secRes.json();
+        
+        setStats(dashData);
+        setSecurityStats(secData);
       } catch (err) {
         console.error('Error fetching analytics:', err);
       } finally {
         setLoading(false);
       }
     };
+
+    const fetchSecuritySettings = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/api/auth/settings');
+        const data = await res.json();
+        setSecurityData(prev => ({ ...prev, recoveryEmail: data.recovery_email || '' }));
+      } catch (err) {
+        console.error('Error fetching security settings:', err);
+      }
+    };
+
     fetchDashboard();
+    fetchSecuritySettings();
   }, []);
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    if (!securityData.currentPassword || !securityData.newPassword) return;
+    setIsSavingSecurity(true);
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/password', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          currentPassword: securityData.currentPassword, 
+          newPassword: securityData.newPassword 
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setConfirmState({
+          isOpen: true,
+          title: 'Contraseña Actualizada',
+          message: 'Tu contraseña de administrador ha sido cambiada con éxito.',
+          type: 'primary'
+        });
+        setSecurityData(prev => ({ ...prev, currentPassword: '', newPassword: '' }));
+      } else {
+        setConfirmState({
+          isOpen: true,
+          title: 'Error',
+          message: data.error || 'No se pudo actualizar la contraseña.',
+          type: 'danger'
+        });
+      }
+    } catch (err) {
+      setConfirmState({ isOpen: true, title: 'Error Crítico', message: 'Fallo de conexión.', type: 'danger' });
+    } finally {
+      setIsSavingSecurity(false);
+    }
+  };
+
+  const handleUpdateEmail = async () => {
+    setIsSavingSecurity(true);
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/recovery-email', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: securityData.recoveryEmail })
+      });
+      if (res.ok) {
+        setConfirmState({
+          isOpen: true,
+          title: 'Email Actualizado',
+          message: 'El correo de recuperación ha sido guardado.',
+          type: 'primary'
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSavingSecurity(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -78,7 +178,6 @@ export default function Dashboard() {
     return <div style={{ color: '#ef4444', textAlign: 'center', padding: '40px' }}>Error al cargar analytics. ¿Están creadas las tablas?</div>;
   }
 
-  // Format dates for display
   const formattedDays = (stats.viewsPerDay || []).map(d => ({
     ...d,
     date: new Date(d.date).toLocaleDateString('es-MX', { month: 'short', day: 'numeric' })
@@ -94,7 +193,7 @@ export default function Dashboard() {
         <StatCard icon={<FolderKanban size={22} />} label="Total Proyectos" value={stats.total_projects} color="#ec4899" />
       </div>
 
-      {/* Row 2: Area chart of daily views */}
+      {/* Daily Views Area Chart */}
       <div className="chart-card chart-full">
         <h4 className="chart-title">
           <Globe size={18} /> Visitas de Página (Últimos 14 Días)
@@ -118,24 +217,15 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Row 3: Bar chart + Pie chart */}
+      {/* Projects and Categories */}
       <div className="charts-row">
         <div className="chart-card">
-          <h4 className="chart-title">
-            <BarChart3 size={18} /> Vistas por Proyecto
-          </h4>
+          <h4 className="chart-title"><BarChart3 size={18} /> Vistas por Proyecto</h4>
           <div className="chart-body">
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={stats.viewsPerProject || []} margin={{ top: 10, right: 20, left: 0, bottom: 60 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis 
-                  dataKey="name" 
-                  stroke="#666" 
-                  tick={{ fill: '#a1a1aa', fontSize: 11 }} 
-                  angle={-35} 
-                  textAnchor="end"
-                  interval={0}
-                />
+                <XAxis dataKey="name" stroke="#666" tick={{ fill: '#a1a1aa', fontSize: 11 }} angle={-35} textAnchor="end" interval={0} />
                 <YAxis stroke="#666" tick={{ fill: '#a1a1aa', fontSize: 12 }} allowDecimals={false} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="views" name="Vistas" radius={[6, 6, 0, 0]}>
@@ -149,9 +239,7 @@ export default function Dashboard() {
         </div>
 
         <div className="chart-card">
-          <h4 className="chart-title">
-            <Eye size={18} /> Vistas por Categoría
-          </h4>
+          <h4 className="chart-title"><Eye size={18} /> Vistas por Categoría</h4>
           <div className="chart-body">
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
@@ -163,96 +251,72 @@ export default function Dashboard() {
                   cy="50%"
                   outerRadius={100}
                   innerRadius={45}
-                  labelLine={false}
                   label={CustomPieLabel}
-                  strokeWidth={2}
-                  stroke="#0a0a0f"
+                  labelLine={false}
                 >
                   {(stats.viewsPerCategory || []).map((_, index) => (
                     <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
                   ))}
                 </Pie>
-                <Legend 
-                  verticalAlign="bottom" 
-                  iconType="circle" 
-                  iconSize={8}
-                  formatter={(value) => <span style={{ color: '#e4e4e7', fontSize: '12px' }}>{value}</span>}
-                />
                 <Tooltip content={<CustomTooltip />} />
+                <Legend verticalAlign="bottom" iconType="circle" iconSize={8} />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
       </div>
 
-      {/* Row 4: Projects per category pie + Top referrers */}
+      {/* Projects per Category and Security Insights */}
       <div className="charts-row">
         <div className="chart-card">
-          <h4 className="chart-title">
-            <FolderKanban size={18} /> Proyectos por Categoría
-          </h4>
+          <h4 className="chart-title"><FolderKanban size={18} /> Proyectos por Categoría</h4>
           <div className="chart-body">
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={260}>
               <PieChart>
                 <Pie
                   data={stats.projectsPerCategory || []}
-                  dataKey="count"
-                  nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={100}
-                  innerRadius={45}
-                  labelLine={false}
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="count"
                   label={CustomPieLabel}
-                  strokeWidth={2}
-                  stroke="#0a0a0f"
+                  labelLine={false}
                 >
                   {(stats.projectsPerCategory || []).map((_, index) => (
                     <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
                   ))}
                 </Pie>
-                <Legend 
-                  verticalAlign="bottom" 
-                  iconType="circle" 
-                  iconSize={8}
-                  formatter={(value) => <span style={{ color: '#e4e4e7', fontSize: '12px' }}>{value}</span>}
-                />
                 <Tooltip content={<CustomTooltip />} />
+                <Legend verticalAlign="bottom" height={36} />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         <div className="chart-card">
-          <h4 className="chart-title">
-            <Globe size={18} /> Top Referentes
-          </h4>
+          <h4 className="chart-title"><Globe size={18} /> Top Referentes</h4>
           <div className="chart-body" style={{ padding: '16px' }}>
-            {(stats.topReferrers || []).length === 0 ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '250px', color: '#a1a1aa' }}>
-                <p style={{ textAlign: 'center', fontSize: '0.9rem' }}>Aún no hay datos de referentes.<br />Los visitantes aparecerán aquí.</p>
+            {(!stats.topReferrers || stats.topReferrers.length === 0) ? (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '220px', color: '#a1a1aa' }}>
+                <p style={{ textAlign: 'center', fontSize: '0.9rem' }}>Aún no hay datos de referentes.</p>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {stats.topReferrers.map((ref, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <span style={{ 
-                      width: '28px', height: '28px', borderRadius: '6px', 
+                      width: '24px', height: '24px', borderRadius: '4px', 
                       background: CHART_COLORS[i % CHART_COLORS.length] + '22', 
                       color: CHART_COLORS[i % CHART_COLORS.length],
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '12px', fontWeight: 700, flexShrink: 0
-                    }}>
-                      #{i + 1}
-                    </span>
+                      fontSize: '11px', fontWeight: 700
+                    }}>#{i + 1}</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: '0.85rem', color: '#e4e4e7', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {ref.name}
-                      </div>
+                      <div style={{ fontSize: '0.8rem', color: '#e4e4e7', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{ref.name}</div>
                     </div>
-                    <span style={{ color: CHART_COLORS[i % CHART_COLORS.length], fontWeight: 700, fontSize: '0.9rem' }}>
-                      {ref.visits}
-                    </span>
+                    <span style={{ color: CHART_COLORS[i % CHART_COLORS.length], fontWeight: 700, fontSize: '0.85rem' }}>{ref.visits}</span>
                   </div>
                 ))}
               </div>
@@ -260,20 +324,106 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
 
-function StatCard({ icon, label, value, color }) {
-  return (
-    <div className="stat-card">
-      <div className="stat-icon" style={{ background: color + '15', color }}>
-        {icon}
+      {/* --- SECURITY INSIGHTS --- */}
+      <div className="analytics-section-header" style={{ marginTop: '40px' }}>
+        <h3><Shield size={22} color="#ef4444" /> Security Pulse & Intrusion Tracking</h3>
+        <p>Monitor failed login attempts and geographical origin of threats.</p>
       </div>
-      <div className="stat-info">
-        <span className="stat-value">{value?.toLocaleString?.() || 0}</span>
-        <span className="stat-label">{label}</span>
+
+      <div className="analytics-grid">
+        {/* Failed Attempts Metrics */}
+        <div className={`stat-card security-alert-card ${securityStats?.isHighAlert ? 'high-alert' : ''}`}>
+          <div className="stat-header">
+            <span className="stat-label">Detected Failed Logins (24h)</span>
+            <Shield size={18} color="#ef4444" />
+          </div>
+          <div className="stat-value" style={{ color: '#ef4444' }}>{securityStats?.failed_24h || 0}</div>
+          <div className="stat-change negative">Total historic: {securityStats?.total_failed || 0}</div>
+          {securityStats?.isHighAlert && (
+            <div className="security-badge danger" style={{ marginTop: '12px', textAlign: 'center' }}>BRUTE FORCE DETECTED</div>
+          )}
+        </div>
+
+        {/* Top Threat Origins */}
+        <div className="chart-card">
+          <h4 className="chart-title">Attack Geolocation (Top Countries)</h4>
+          <div className="chart-container" style={{ height: '220px' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={securityStats?.top_countries || []} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
+                <XAxis type="number" hide />
+                <YAxis dataKey="name" type="category" stroke="#a1a1aa" fontSize={12} width={80} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="count" fill="#ef4444" radius={[0, 4, 4, 0]} barSize={20} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       </div>
+
+      {/* Recent IP Threats Table */}
+      <div className="table-card" style={{ marginTop: '24px' }}>
+        <h4 className="chart-title"><BarChart3 size={18} /> Recent Suspicious Activity</h4>
+        <div className="table-container">
+          <table className="admin-table">
+            <thead>
+              <tr><th>IP Address</th><th>Location</th><th>Date & Time</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              {securityStats?.recent_failures && securityStats.recent_failures.length > 0 ? (
+                securityStats.recent_failures.map((log, idx) => (
+                  <tr key={idx}>
+                    <td style={{ fontFamily: 'monospace', fontWeight: 600 }}>{log.ip_address}</td>
+                    <td><div className="location-tag"><Globe size={14} /> {log.city}, {log.country}</div></td>
+                    <td>{new Date(log.timestamp).toLocaleString()}</td>
+                    <td><span className="status-badge inactive">BLOCKED ATTEMPT</span></td>
+                  </tr>
+                ))
+              ) : (
+                <tr><td colSpan="4" style={{ textAlign: 'center', padding: '30px', color: '#a1a1aa' }}>No suspicious activity recorded.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Security Section: Settings */}
+      <div className="charts-row security-section" style={{ marginTop: '20px' }}>
+        <div className="chart-card chart-full">
+          <h4 className="chart-title"><Shield size={18} /> Seguridad y Credenciales</h4>
+          <div className="chart-body" style={{ padding: '24px' }}>
+            <div className="security-settings-grid">
+              <form onSubmit={handleUpdatePassword} className="security-form-group">
+                <h5><Key size={16} /> Cambiar Contraseña</h5>
+                <div className="input-row-neon">
+                  <input type="password" placeholder="Contraseña Actual" value={securityData.currentPassword} onChange={e => setSecurityData({...securityData, currentPassword: e.target.value})} />
+                  <input type="password" placeholder="Nueva Contraseña" value={securityData.newPassword} onChange={e => setSecurityData({...securityData, newPassword: e.target.value})} />
+                  <button type="submit" disabled={isSavingSecurity} className="security-btn">Actualizar Contraseña</button>
+                </div>
+              </form>
+              <div className="security-form-group">
+                <h5><Mail size={16} /> Email de Recuperación</h5>
+                <p className="security-hint">Se usará para alertas y restablecer acceso.</p>
+                <div className="input-row-neon">
+                  <input type="email" placeholder="tu@email.com" value={securityData.recoveryEmail} onChange={e => setSecurityData({...securityData, recoveryEmail: e.target.value})} />
+                  <button onClick={handleUpdateEmail} disabled={isSavingSecurity} className="security-btn secondary">Guardar Email</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ConfirmModal 
+        isOpen={confirmState.isOpen}
+        title={confirmState.title}
+        message={confirmState.message}
+        type={confirmState.type}
+        confirmText="Entendido"
+        onConfirm={() => setConfirmState({...confirmState, isOpen: false})}
+        onCancel={() => setConfirmState({...confirmState, isOpen: false})}
+      />
     </div>
   );
 }

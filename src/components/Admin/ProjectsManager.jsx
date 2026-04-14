@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, ExternalLink } from 'lucide-react';
 import ProjectFormModal from './ProjectFormModal';
+import ConfirmModal from './ConfirmModal';
 
 export default function ProjectsManager() {
   const [projects, setProjects] = useState([]);
@@ -8,15 +9,28 @@ export default function ProjectsManager() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
 
+  // Custom Confirm Modal State
+  const [confirmState, setConfirmState] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+    type: 'primary'
+  });
+
   const fetchProjects = async () => {
     try {
       const res = await fetch('http://localhost:3000/api/projects');
       if (!res.ok) throw new Error('API fetch error');
       const data = await res.json();
-      setProjects(data);
+      const formattedData = data.map(p => ({
+        ...p,
+        tags: typeof p.tags === 'string' ? JSON.parse(p.tags) : p.tags,
+        gallery: typeof p.gallery === 'string' ? JSON.parse(p.gallery) : p.gallery
+      }));
+      setProjects(formattedData);
     } catch (error) {
       console.error(error);
-      alert('Error fetching projects. Is the backend running?');
     } finally {
       setLoading(false);
     }
@@ -36,52 +50,68 @@ export default function ProjectsManager() {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('¿Seguro que deseas eliminar este proyecto?')) {
-      try {
-        const res = await fetch(`http://localhost:3000/api/projects/${id}`, { method: 'DELETE' });
-        if (res.ok) fetchProjects();
-      } catch (error) {
-        console.error(error);
-        alert('Failed to delete project');
+  const handleDelete = (id) => {
+    setConfirmState({
+      isOpen: true,
+      title: '¿Eliminar Proyecto?',
+      message: 'Esta acción no se puede deshacer. El proyecto será borrado permanentemente de la base de datos.',
+      type: 'danger',
+      confirmText: 'Sí, eliminar',
+      cancelText: 'Cancelar',
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`http://localhost:3000/api/projects/${id}`, { method: 'DELETE' });
+          if (res.ok) fetchProjects();
+        } catch (error) {
+          console.error(error);
+        }
       }
-    }
+    });
   };
 
   const handleSaveProject = async (formData) => {
     const isFormData = formData instanceof FormData;
     const id = isFormData ? formData.get('id') : formData.id;
     const isEditing = !!id;
-    
-    const url = isEditing ? `http://localhost:3000/api/projects/${id}` : 'http://localhost:3000/api/projects';
-    const method = isEditing ? 'PUT' : 'POST';
 
-    try {
-      const res = await fetch(url, {
-        method,
-        headers: isFormData ? {} : { 'Content-Type': 'application/json' },
-        body: isFormData ? formData : JSON.stringify(formData)
-      });
-      if (res.ok) {
-        setIsModalOpen(false);
-        fetchProjects();
-      } else {
-        alert('Error saving project.');
+    setConfirmState({
+      isOpen: true,
+      title: isEditing ? '¿Guardar Cambios?' : '¿Crear Proyecto?',
+      message: isEditing 
+        ? '¿Estás seguro de que deseas actualizar la información de este proyecto?' 
+        : '¿Estás seguro de que deseas añadir este nuevo proyecto al portafolio?',
+      type: 'primary',
+      confirmText: isEditing ? 'Sí, guardar ahora' : 'Sí, crear ahora',
+      cancelText: 'Cancelar',
+      onConfirm: async () => {
+        const url = isEditing ? `http://localhost:3000/api/projects/${id}` : 'http://localhost:3000/api/projects';
+        const method = isEditing ? 'PUT' : 'POST';
+
+        try {
+          const res = await fetch(url, {
+            method,
+            headers: isFormData ? {} : { 'Content-Type': 'application/json' },
+            body: isFormData ? formData : JSON.stringify(formData)
+          });
+          if (res.ok) {
+            setIsModalOpen(false);
+            fetchProjects();
+          }
+        } catch (error) {
+          console.error(error);
+        }
       }
-    } catch (error) {
-      console.error(error);
-      alert('Failed to save project');
-    }
+    });
   };
 
-  if (loading) return <div style={{ color: '#fff' }}>Loading projects...</div>;
+  if (loading) return <div style={{ color: '#fff', padding: '40px', textAlign: 'center' }}>Cargando proyectos...</div>;
 
   return (
     <div className="projects-manager">
       <div className="table-actions">
         <button className="admin-save-btn" onClick={handleAddNew}>
           <Plus size={18} />
-          Add New Project
+          Nuevo Proyecto
         </button>
       </div>
 
@@ -137,6 +167,17 @@ export default function ProjectsManager() {
           onSave={handleSaveProject} 
         />
       )}
+
+      <ConfirmModal 
+        isOpen={confirmState.isOpen}
+        title={confirmState.title}
+        message={confirmState.message}
+        type={confirmState.type}
+        confirmText={confirmState.confirmText}
+        cancelText={confirmState.cancelText}
+        onConfirm={confirmState.onConfirm}
+        onCancel={() => setConfirmState(prev => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }
