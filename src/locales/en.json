@@ -16,6 +16,7 @@
     "title": "Selected Projects",
     "desc": "A curated collection of digital experiences, focusing on performance, aesthetics, and user impact.",
     "view_details": "View Details",
+    "view_all": "More projects",
     "p1": {
       "title": "EcoSmart Nexus",
       "category": "Smart Home Dashboard",
@@ -97,34 +98,61 @@
     }
   },
   "contact": {
-    "label": "Get in touch",
-    "title": "Let's Build Something Great",
-    "subtitle": "Currently available for freelance projects and open to new opportunities.",
-    "cta": "Drop a message and let's talk about your next big idea.",
-    "form": {
-      "name": "Name",
+    "available_badge": "Available for new projects",
+    "title_plain": "Let's make your",
+    "title_highlight": "digital project real",
+    "subtitle": "Tell me about your idea and let's work together to turn it into a professional, modern, and functional digital solution.",
+    "toggle": {
       "email": "Email",
-      "project_type": "Project Type",
-      "message": "Message",
+      "whatsapp": "WhatsApp"
+    },
+    "email_panel": {
+      "title": "Send me an email",
+      "desc": "Fill out the form and your email client will open with a pre-filled message.",
+      "v1_title": "Response in 24h",
+      "v1_desc": "I commit to replying to your email within 24 hours.",
+      "v2_title": "Detailed proposals",
+      "v2_desc": "You'll receive a clear proposal with scope, timelines, and pricing.",
+      "v3_title": "Everything documented",
+      "v3_desc": "Every step of the project is recorded in writing."
+    },
+    "wa_panel": {
+      "title": "Message me on WhatsApp",
+      "desc": "Fill out the form and WhatsApp will open with your message ready to send.",
+      "v1_title": "Direct communication",
+      "v1_desc": "Talk to me directly, no intermediaries.",
+      "v2_title": "Replies in minutes",
+      "v2_desc": "Fast support during business hours to answer your questions.",
+      "v3_title": "Share files easily",
+      "v3_desc": "Send me designs, mockups, or references directly via chat."
+    },
+    "form": {
+      "name": "Full name",
+      "email": "Email address",
+      "project_type": "Project type",
+      "message": "Tell me about your project",
       "placeholder_name": "John Doe",
       "placeholder_email": "john@example.com",
       "placeholder_other": "E.g., API Integration, Consultation...",
-      "placeholder_message": "Hello, I have a project in mind...",
-      "send": "Send Message",
-      "confirm_title": "Confirm Sending",
-      "confirm_msg": "Are you sure you want to send this message?",
-      "confirm_btn": "Yes, send now",
-      "cancel_btn": "Cancel",
-      "sending": "Sending...",
-      "success_title": "Message Sent!",
-      "success_msg": "I've received your message and will get back to you as soon as possible. Thank you!",
-      "reset_btn": "Send another message",
+      "placeholder_message": "Describe your idea, goals, and any important details...",
+      "send": "Send message",
+      "send_wa": "Send message via WhatsApp",
       "services": {
         "web_page": "Web Page",
-        "system_web": "System Web",
-        "app": "App",
+        "system_web": "Web System",
+        "app": "Mobile App",
         "other": "Other"
       }
+    },
+    "confirm": {
+      "title": "Confirm sending",
+      "msg": "Are you sure you want to send this message?",
+      "cancel": "Cancel",
+      "send": "Yes, send now",
+      "sending": "Sending message...",
+      "success_title": "Message sent!",
+      "success_msg": "Your message has been prepared successfully. Thanks for reaching out!",
+      "another": "Send another message"
     }
   },
   "footer": {

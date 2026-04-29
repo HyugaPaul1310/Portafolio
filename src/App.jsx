@@ -1,13 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import ProjectsSection from './components/Projects/ProjectsSection';
 import AboutSection from './components/About/AboutSection';
 import ContactSection from './components/Contact/ContactSection';
 import Footer from './components/Footer/Footer';
-import AdminLayout from './components/Admin/AdminLayout';
-import LoginModal from './components/Admin/LoginModal';
+
+// Lazy loading 
+const AdminLayout = lazy(() => import('./components/Admin/AdminLayout'));
+const LoginModal = lazy(() => import('./components/Admin/LoginModal'));
 import './App.css';
 
 function PortfolioLayout() {
@@ -50,7 +52,6 @@ function App() {
   const handleLoginSuccess = () => {
     sessionStorage.setItem('admin_auth', 'true');
     setIsAuthenticated(true);
-    // Redirect to admin panel if not already there
     if (window.location.pathname !== '/admin') {
       window.location.href = '/admin';
     }
@@ -58,49 +59,55 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<PortfolioLayout />} />
-        <Route
-          path="/admin/*"
-          element={
-            isAuthenticated ? (
-              <AdminLayout />
-            ) : (
-              <div style={{
-                height: '100vh',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: '#0a0a0a',
-                color: '#444'
-              }}>
-                <p>Acceso Restringido</p>
-                <button
-                  onClick={() => setIsLoginOpen(true)}
-                  style={{
-                    marginTop: '20px',
-                    background: 'transparent',
-                    border: '1px solid #333',
-                    color: '#666',
-                    padding: '8px 16px',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Iniciar Sesión
-                </button>
-              </div>
-            )
-          }
-        />
-      </Routes>
+      <Suspense fallback={
+        <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a' }}>
+          <div className="loading-spinner"></div>
+        </div>
+      }>
+        <Routes>
+          <Route path="/" element={<PortfolioLayout />} />
+          <Route
+            path="/admin/*"
+            element={
+              isAuthenticated ? (
+                <AdminLayout />
+              ) : (
+                <div style={{
+                  height: '100vh',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: '#0a0a0a',
+                  color: '#444'
+                }}>
+                  <p>Acceso Restringido</p>
+                  <button
+                    onClick={() => setIsLoginOpen(true)}
+                    style={{
+                      marginTop: '20px',
+                      background: 'transparent',
+                      border: '1px solid #333',
+                      color: '#666',
+                      padding: '8px 16px',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Iniciar Sesión
+                  </button>
+                </div>
+              )
+            }
+          />
+        </Routes>
 
-      <LoginModal
-        isOpen={isLoginOpen}
-        onClose={() => setIsLoginOpen(false)}
-        onLoginSuccess={handleLoginSuccess}
-      />
+        <LoginModal
+          isOpen={isLoginOpen}
+          onClose={() => setIsLoginOpen(false)}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      </Suspense>
     </Router>
   );
 }

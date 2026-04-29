@@ -16,6 +16,7 @@
     "title": "Proyectos Seleccionados",
     "desc": "Una colección seleccionada de experiencias digitales, enfocada en el rendimiento, la estética y el impacto en el usuario.",
     "view_details": "Ver Detalles",
+    "view_all": "Más proyectos",
     "p1": {
       "title": "EcoSmart Nexus",
       "category": "Dashboard de Hogar Inteligente",
@@ -97,34 +98,61 @@
     }
   },
   "contact": {
-    "label": "Ponte en contacto",
-    "title": "Construyamos algo genial",
-    "subtitle": "Actualmente disponible para proyectos freelance y abierto a nuevas oportunidades.",
-    "cta": "Envía un mensaje y hablemos de tu próxima gran idea.",
+    "available_badge": "Disponible para nuevos proyectos",
+    "title_plain": "Hagamos realidad tu",
+    "title_highlight": "proyecto digital",
+    "subtitle": "Cuéntame sobre tu idea y trabajemos juntos para convertirla en una solución digital profesional, moderna y funcional.",
+    "toggle": {
+      "email": "Correo electrónico",
+      "whatsapp": "WhatsApp"
+    },
+    "email_panel": {
+      "title": "Envíame un correo",
+      "desc": "Completa el formulario y se abrirá tu cliente de correo con el mensaje prellenado.",
+      "v1_title": "Respuesta en 24h",
+      "v1_desc": "Me comprometo a responder tu correo en menos de 24 horas.",
+      "v2_title": "Propuestas detalladas",
+      "v2_desc": "Recibirás una propuesta clara con alcance, tiempos y precios.",
+      "v3_title": "Todo documentado",
+      "v3_desc": "Cada paso del proyecto queda registrado por escrito."
+    },
+    "wa_panel": {
+      "title": "Escríbeme por WhatsApp",
+      "desc": "Completa el formulario y se abrirá WhatsApp con tu mensaje listo para enviar.",
+      "v1_title": "Comunicación directa",
+      "v1_desc": "Habla conmigo sin intermediarios, de forma personal.",
+      "v2_title": "Respuestas en minutos",
+      "v2_desc": "Atención rápida en horario laboral para resolver tus dudas.",
+      "v3_title": "Comparte archivos fácilmente",
+      "v3_desc": "Envíame diseños, mockups o referencias directamente por chat."
+    },
     "form": {
-      "name": "Nombre",
-      "email": "Correo",
-      "project_type": "Tipo de Proyecto",
-      "message": "Mensaje",
+      "name": "Nombre completo",
+      "email": "Correo electrónico",
+      "project_type": "Tipo de proyecto",
+      "message": "Cuéntame sobre tu proyecto",
       "placeholder_name": "Juan Pérez",
-      "placeholder_email": "juan@ejemplo.com",
+      "placeholder_email": "tu@email.com",
       "placeholder_other": "Ej. Integración API, Consultoría...",
-      "placeholder_message": "Hola, tengo un proyecto en mente...",
-      "send": "Enviar Mensaje",
-      "confirm_title": "Confirmar envío",
-      "confirm_msg": "¿Estás seguro de que quieres enviar este mensaje?",
-      "confirm_btn": "Sí, enviar ahora",
-      "cancel_btn": "Cancelar",
-      "sending": "Enviando...",
-      "success_title": "¡Mensaje Enviado!",
-      "success_msg": "He recibido tu mensaje y te responderé lo antes posible. ¡Gracias por contactarme!",
-      "reset_btn": "Enviar otro mensaje",
+      "placeholder_message": "Describe tu idea, objetivos y cualquier detalle importante que deba saber...",
+      "send": "Enviar mensaje",
+      "send_wa": "Enviar mensaje por WhatsApp",
       "services": {
         "web_page": "Página Web",
         "system_web": "Sistema Web",
-        "app": "App",
+        "app": "App Móvil",
         "other": "Otro"
       }
+    },
+    "confirm": {
+      "title": "Confirmar envío",
+      "msg": "¿Estás seguro de que deseas enviar este mensaje?",
+      "cancel": "Cancelar",
+      "send": "Sí, enviar ahora",
+      "sending": "Enviando mensaje...",
+      "success_title": "¡Mensaje enviado!",
+      "success_msg": "Tu mensaje ha sido preparado correctamente. ¡Gracias por contactarme!",
+      "another": "Enviar otro mensaje"
     }
   },
   "footer": {
