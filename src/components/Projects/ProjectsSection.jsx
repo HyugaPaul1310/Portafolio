@@ -1,15 +1,11 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ProjectCard from './ProjectCard';
-import ProjectModal from './ProjectModal';
-
 export default function ProjectsSection() {
   const { t } = useTranslation();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('All');
-  const [selectedProject, setSelectedProject] = useState(null);
-
   const particles = useMemo(() => Array.from({ length: 30 }).map((_, i) => ({
     x: `${Math.random() * 100}%`,
     y: `${Math.random() * 100}%`,
@@ -104,7 +100,6 @@ export default function ProjectsSection() {
               <ProjectCard
                 key={project.id}
                 project={project}
-                onViewDetails={() => setSelectedProject(project)}
               />
             ))}
           </div>
@@ -121,12 +116,6 @@ export default function ProjectsSection() {
         </div>
       )}
 
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
     </section>
   );
 }

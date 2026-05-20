@@ -10,6 +10,7 @@ import Footer from './components/Footer/Footer';
 // Lazy loading 
 const AdminLayout = lazy(() => import('./components/Admin/AdminLayout'));
 const LoginModal = lazy(() => import('./components/Admin/LoginModal'));
+const ProjectDetailsPage = lazy(() => import('./pages/ProjectDetailsPage'));
 import './App.css';
 
 function PortfolioLayout() {
@@ -66,6 +67,7 @@ function App() {
       }>
         <Routes>
           <Route path="/" element={<PortfolioLayout />} />
+          <Route path="/project/:id" element={<ProjectDetailsPage />} />
           <Route
             path="/admin/*"
             element={

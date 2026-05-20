@@ -1,5 +1,6 @@
 import React, { memo, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import i18n from '../../i18n';
 
 function hexToRgba(hex, alpha) {
@@ -10,6 +11,7 @@ function hexToRgba(hex, alpha) {
 
 function ProjectCard({ project, onViewDetails }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const cardRef = useRef(null);
   const title = i18n.language.startsWith('es') ? project.title_es : project.title_en;
   const description = i18n.language.startsWith('es') ? project.description_es : project.description_en;
@@ -72,7 +74,7 @@ function ProjectCard({ project, onViewDetails }) {
         willChange: 'transform',
         borderRadius: '16px',
       }}
-      onClick={() => onViewDetails(project)}
+      onClick={() => navigate(`/project/${project.id}`)}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

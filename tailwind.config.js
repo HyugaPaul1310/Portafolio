@@ -23,6 +23,7 @@ export default {
         'slide-in-up': 'slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
         'shimmer': 'shimmer 2s linear infinite',
         'glow-pulse': 'glowPulse 2s ease-in-out infinite',
+        'marquee': 'marquee 25s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -71,6 +72,10 @@ export default {
         glowPulse: {
           '0%, 100%': { boxShadow: '0 0 20px rgba(168, 85, 247, 0.15)' },
           '50%': { boxShadow: '0 0 40px rgba(168, 85, 247, 0.3)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
       }
     },
